@@ -2,7 +2,8 @@
   "name": "hupi",
   "version": "1.0.0",
   "description": "Reloads your project in browser when changes are detected in your folder. It uses the gaze plugin for detecting file changes.",
-  "main": "cli.js",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,8 +13,14 @@
   },
   "author": "Andrian Moroi",
   "license": "ISC",
+  "bin": "cli.js",
   "bugs": {
     "url": "https://github.com/andrianmoroi/hupi/issues"
   },
-  "homepage": "https://github.com/andrianmoroi/hupi#readme"
+  "homepage": "https://github.com/andrianmoroi/hupi#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "gaze": "^1.1.3",
+    "ws": "^8.14.1"
+  }
 }

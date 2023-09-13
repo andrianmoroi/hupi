@@ -1,7 +1,7 @@
 import express from "express"
 import { join } from "path";
 import { getNextPort } from "./ports.js"
-import { readFileSync, existsSync } from "fs";
+import { readFileSync, existsSync, lstatSync } from "fs";
 import { listFilesHtmlPage, websocketRefreshScript } from "./htmlScripts.js";
 import { startWebSocketServer } from "./webSocketServet.js";
 
@@ -29,13 +29,20 @@ export async function startServer(port, wsPort, path) {
 
 function interceptHtmlFiles(req, res, next, wsPort, path) {
     const url = req.url
-    const fileName = getFileNameFromUrl(url)
+    const fullPath = join(path, url)
+    const rootPath = path
 
-    if (fileName.endsWith(".html")) {
-        const filePath = join(path, url, fileName)
+    if (existsSync(fullPath)) {
+        const lstat = lstatSync(fullPath)
+        const isDirectory = lstat.isDirectory()
+        const isFile = lstat.isFile()
 
-        if (existsSync(filePath)) {
-            const file = readFileSync(filePath)
+        if (isDirectory) {
+            const page = listFilesHtmlPage(fullPath, rootPath)
+
+            res.send(page)
+        } else if (isFile && fullPath.endsWith(".html")) {
+            const file = readFileSync(fullPath)
             const text = file.toString()
 
             const index = text.lastIndexOf("</body>")
@@ -47,20 +54,20 @@ function interceptHtmlFiles(req, res, next, wsPort, path) {
 
             res.send(result)
         } else {
-            res.send(listFilesHtmlPage(join(path, url)))
+            next()
         }
     } else {
         next()
     }
 }
 
-function getFileNameFromUrl(url) {
-    const lastSlash = url.lastIndexOf("/")
+function getFileNameFromUrl(path) {
+    const lastSlash = path.lastIndexOf("/")
 
-    let questionMark = url.indexOf("?")
+    let questionMark = path.indexOf("?")
     if (questionMark == -1) {
-        questionMark = url.length
+        questionMark = path.length
     }
 
-    return url.slice(lastSlash + 1, questionMark) || "index.html"
+    return path.slice(lastSlash + 1, questionMark) || ""
 }

@@ -1,13 +1,11 @@
-import { readdirSync } from "fs"
+import { getFiles } from "./filesHelper.js";
 
-export function listFilesHtmlPage(path) {
-    const files = readdirSync(path).map(m => ({
-        file: m,
-        path: `/${m}`
-    }))
+export function listFilesHtmlPage(path, rootPath) {
+    const relativePath = path.replace(rootPath, '')
+    const files = getFiles(path, relativePath)
 
     const elements = files.map(
-        ({ file, path }) => `<div><a href="${path}">${file}</a></div>`
+        ({ name, path }) => `<div><a href="${path}">${name}</a></div>`
     )
 
     return `

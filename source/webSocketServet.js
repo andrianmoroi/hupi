@@ -1,12 +1,12 @@
 import { WebSocketServer } from "ws";
 import gaze from "gaze";
 
-export function startWebSocketServer(wsPort, path) {
+export function startWebSocketServer(wsPort, path, patterns) {
     const wss = new WebSocketServer({
         port: wsPort
     })
 
-    gaze('**/*.*', { cwd: path }, function () {
+    gaze(patterns, { cwd: path }, function () {
         this.on('all', function () {
             wss.clients.forEach(ws => ws.send("refresh"))
         })

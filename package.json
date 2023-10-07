@@ -1,6 +1,6 @@
 {
-  "name": "hupi",
-  "version": "1.0.1",
+  "name": "@andrianmoroi/hupi",
+  "version": "1.0.2",
   "description": "Reloads your project in browser when changes are detected in your folder. It uses the gaze plugin for detecting file changes.",
   "main": "index.js",
   "type": "module",

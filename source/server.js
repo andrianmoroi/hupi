@@ -4,9 +4,12 @@ import { getNextPort } from "./ports.js"
 import { readFileSync, existsSync, lstatSync } from "fs";
 import { listFilesHtmlPage, websocketRefreshScript } from "./htmlScripts.js";
 import { startWebSocketServer } from "./webSocketServet.js";
+import { getConfig } from "./config.js";
 
 export async function startServer(port, wsPort, path) {
     const app = express()
+
+    const { watchPatterns } = getConfig(path)
 
     app.use(
         (req, res, next) => interceptHtmlFiles(
@@ -16,7 +19,7 @@ export async function startServer(port, wsPort, path) {
     app.use(express.static(path))
 
     wsPort = await getNextPort(wsPort)
-    startWebSocketServer(wsPort, path)
+    startWebSocketServer(wsPort, path, watchPatterns)
 
     port = await getNextPort(port)
     app.listen(port, function () {

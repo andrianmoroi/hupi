@@ -40,6 +40,10 @@ The next example will refresh the application only when an html or a javascript 
 
 In absence of a **.hupi-watch** file, the application will track the changes of all the files.
 
+## Link to NPM Package
+
+You can find the npm package for this project [here](https://www.npmjs.com/package/@andrianmoroi/hupi).
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.

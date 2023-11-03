@@ -1,10 +1,10 @@
-# hupi
+# HUPI
 
 Hupi is a simple tool designed to streamline your development workflow by automatically reloading your project in the browser as soon as any changes are detected within your designated project folder. 
 
 ## Prerequisites
 
-Before you proceed with the installation, ensure you have the following prerequisites:
+Before you proceed with the installation, ensure you have the following programs installed:
 
 1. Node.js
 2. npm
@@ -14,7 +14,7 @@ Before you proceed with the installation, ensure you have the following prerequi
 You could install the application on your machine using the npm command:
 
 ```bash
-npm -g i @andrianmoroi/hupi
+npm i -g @andrianmoroi/hupi
 ```
 
 ## Usage
@@ -29,7 +29,7 @@ The application will automatically initiate an HTTP server on an available port 
 
 To specify specific rules for refreshing the website, you can create a **.hupi-watch** file in the root directory of your project. 
 
-The next example file will refresh the application only when an html or a javascript file will be changed:
+The next example will refresh the application only when an html or a javascript file will be changed:
 
 ```sh
 # This is a comment.
@@ -39,3 +39,7 @@ The next example file will refresh the application only when an html or a javasc
 ```
 
 In absence of a **.hupi-watch** file, the application will track the changes of all the files.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

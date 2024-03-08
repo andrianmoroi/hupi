@@ -26,32 +26,35 @@ export function websocketRefreshScript(wsPort) {
     return `
     <script>
         function connect() {
-            console.log("Live reloading is enabled.")
-            
             const {hostname, pathname} = window.location
             const url = "ws://" + hostname + ":" + ${wsPort} + pathname
+            console.log("Live reloading is enabled.")
 
-            let socket = new WebSocket(url)
+            try {
+                let socket = new WebSocket(url)
 
-            socket.onmessage = function(event) {
-                const {data} = event
-                console.log(data)
-                if(data == "refresh")
-                {
-                    location.reload()
+                socket.onmessage = function(event) {
+                    const {data} = event
+                    console.log(data)
+                    if(data == "refresh")
+                    {
+                        location.reload()
+                    }
                 }
-            }
 
-            socket.onclose = function(e) {
-                console.log("close")
-                setTimeout(function() {
-                    connect()
-                }, 3000)
-            }
-            
-            socket.onerror = function(err) {
-                console.log("error")
-                socket.close()
+                socket.onclose = function(e) {
+                    console.log("close")
+                    setTimeout(function() {
+                        connect()
+                    }, 3000)
+                }
+                
+                socket.onerror = function(err) {
+                    console.log("error")
+                    socket.close()
+                }
+            } catch(error) {
+                console.warn(\`Cannot connect to \${url} for auto-reloading the page.\`)
             }
         }
 
